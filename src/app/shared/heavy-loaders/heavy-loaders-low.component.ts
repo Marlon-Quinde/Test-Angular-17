@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Input, Component } from '@angular/core';
 
 @Component({
   selector: 'app-heavy-loaders-low',
   standalone: true,
   imports: [CommonModule],
-  template: ` <h1>Hola mundo</h1> `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<section [ngClass]="['w-full h-[600px]', cssClass]">
+    Heavy Loader Slow
+  </section>`,
 })
-export class HeavyLoadersLowComponent {}
+export class HeavyLoadersLowComponent {
+  @Input({ required: true }) cssClass!: string;
+  constructor() {
+    const start = Date.now();
+    while (Date.now() - start < 3000) {}
+  }
+}

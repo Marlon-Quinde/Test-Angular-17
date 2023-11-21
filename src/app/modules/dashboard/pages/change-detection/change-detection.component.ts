@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+} from '@angular/core';
 import { TitleComponent } from '@shared/title/title.component';
 
 @Component({
@@ -7,15 +12,18 @@ import { TitleComponent } from '@shared/title/title.component';
   standalone: true,
   imports: [CommonModule, TitleComponent],
   template: `
-    <app-title title="Change Detection" />
-    <pre> {{ frameworkSignal() | json }} </pre>
+    <app-title [title]="currentFramework()" />
+    <pre> {{ frameworkAsSignal() | json }} </pre>
     <pre> {{ frameworkAsProperty | json }} </pre>
   `,
   styleUrls: ['./change-detection.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ChangeDetectionComponent {
-  public frameworkSignal = signal({
+  public currentFramework = computed(
+    () => `Change Detection - ${this.frameworkAsSignal().name}`
+  );
+  public frameworkAsSignal = signal({
     name: 'Angular',
     releaseDate: 2016,
   });
@@ -24,4 +32,15 @@ export default class ChangeDetectionComponent {
     name: 'Angular',
     releaseDate: 2016,
   };
+
+  constructor() {
+    setTimeout(() => {
+      // this.frameworkAsProperty.name = 'React';
+      this.frameworkAsSignal.update((value) => ({
+        ...value,
+        name: 'react',
+      }));
+      console.log('Hecho');
+    }, 3000);
+  }
 }
