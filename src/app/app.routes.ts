@@ -51,11 +51,19 @@ export const routes: Routes = [
           import('./modules/dashboard/pages/users/users.component'),
       },
       {
-        path: 'view-transition',
-        title: 'View Transition',
+        path: 'view-transition-1',
+        title: 'View Transition 1',
         loadComponent: () =>
           import(
-            './modules/dashboard/pages/view-transition/view-transition.component'
+            './modules/dashboard/pages/view-transition/view-transition1.component'
+          ),
+      },
+      {
+        path: 'view-transition-2',
+        title: 'View Transition 2',
+        loadComponent: () =>
+          import(
+            './modules/dashboard/pages/view-transition/view-transition2.component'
           ),
       },
       {
